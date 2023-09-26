@@ -1,18 +1,19 @@
-use std::io::{stdin, self, Write};
+#![feature(if_let_guard)]
 
-use crate::{repl::repl_exec, env::Env};
+use std::io::{self, stdin, Write};
 
-mod lexer;
-mod vars;
+use crate::{env::Env, repl::repl_exec};
+
 mod env;
+mod lexer;
 mod parser;
-mod runer;
 mod repl;
+mod runer;
+mod std_lisp;
 mod tools;
+mod vars;
 
 fn main() {
-    println!("Hello, world!");
-    // lexer("sad");
     print!(">>> ");
     io::stdout().flush().unwrap();
     let mut env = Env::new();

@@ -1,5 +1,3 @@
-use std::{clone, slice::Iter};
-
 pub fn lexer<'a>(program: &'a String) -> Vec<String> {
     let mut word = (0, 0);
     let mut out: Vec<String> = Vec::new();

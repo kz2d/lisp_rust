@@ -3,11 +3,11 @@ macro_rules! cast {
         ($target: expr, $pat: path) => {
             {
                 if let $pat(a) = $target { // #1
-                    a
+                    Ok(a)
                 } else {
-                    panic!(
+                    Err(anyhow::anyhow!(
                         "mismatch variant when cast to {} from {:?}", 
-                        stringify!($pat), $target); // #2
+                        stringify!($pat), $target)) // #2
                 }
             }
         };

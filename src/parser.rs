@@ -1,12 +1,13 @@
-use crate::vars::function::Function;
+use crate::vars::function::{Function, NativeFanction};
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Value {
     Float(f64),
     Name(String),
     Scoup(Vec<Value>),
-	Function(Function),
-    Boolean(bool)
+    Function(Function),
+    NativeFunction(NativeFanction),
+    Boolean(bool),
 }
 
 pub fn parse(program: Vec<String>) -> Vec<Value> {
@@ -49,9 +50,9 @@ pub fn parse(program: Vec<String>) -> Vec<Value> {
         }
     }
 
-	if !stack.is_empty() {
-		panic!("too many open braces");
-	}
+    if !stack.is_empty() {
+        panic!("too many open braces");
+    }
 
     out
 }
@@ -108,7 +109,11 @@ mod test {
                     Scoup(vec![
                         Name("lambda".to_string()),
                         Scoup(vec![Name("x".to_string()), Name("y".to_string())]),
-                        Scoup(vec![Name("+".to_string()), Name("x".to_string()), Name("y".to_string())])
+                        Scoup(vec![
+                            Name("+".to_string()),
+                            Name("x".to_string()),
+                            Name("y".to_string())
+                        ])
                     ])
                 ]),
                 Scoup(vec![Name("sum".to_string()), Float(10.0), Float(20.0)]),
@@ -118,7 +123,11 @@ mod test {
                     Scoup(vec![
                         Name("lambda".to_string()),
                         Scoup(vec![Name("x".to_string())]),
-                        Scoup(vec![Name("*".to_string()), Name("x".to_string()), Name("x".to_string())])
+                        Scoup(vec![
+                            Name("*".to_string()),
+                            Name("x".to_string()),
+                            Name("x".to_string())
+                        ])
                     ])
                 ]),
                 Scoup(vec![Name("sqr".to_string()), Float(20.0)]),
@@ -128,7 +137,11 @@ mod test {
                     Scoup(vec![
                         Name("lambda".to_string()),
                         Scoup(vec![Name("r".to_string())]),
-                        Scoup(vec![Name("*".to_string()), Name("pi".to_string()), Scoup(vec![Name("sqr".to_string()), Name("r".to_string())])])
+                        Scoup(vec![
+                            Name("*".to_string()),
+                            Name("pi".to_string()),
+                            Scoup(vec![Name("sqr".to_string()), Name("r".to_string())])
+                        ])
                     ])
                 ]),
                 Scoup(vec![Name("area-of-circle".to_string()), Float(10.0)]),
@@ -141,7 +154,11 @@ mod test {
                         Scoup(vec![
                             Name("=".to_string()),
                             Float(0.0),
-                            Scoup(vec![Name("%".to_string()), Name("x".to_string()), Float(2.0)])
+                            Scoup(vec![
+                                Name("%".to_string()),
+                                Name("x".to_string()),
+                                Float(2.0)
+                            ])
                         ])
                     ])
                 ]),
