@@ -29,7 +29,7 @@ pub fn exec<'a>(v: &Value, env: &mut Env) -> Result<Value> {
 					val
 				}
 				"if" => {
-					assert_eq!(sc.len(), 4);
+					anyhow::ensure!(sc.len() == 4);
 					let v = cast!(exec(&args[0], env)?, Value::Boolean)?;
 					if v {
 						exec(&args[1], env)

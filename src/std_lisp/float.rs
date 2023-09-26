@@ -26,11 +26,11 @@ pub fn register(context: &mut Env) -> Result<()> {
 
 #[macro_export]
 macro_rules! add_operator {
-    ($context:tt,$name: tt, $input_len:tt; $( $input:path),* => $output:path; $function: expr ) => {
+    ($context:tt, $name: tt, $input_len:tt; $( $input:path),* => $output:path; $function: expr ) => {
     $context.set_global(
         $name.to_string(),
         Value::NativeFunction(NativeFanction(Rc::new(|env, inp| {
-            assert_eq!(inp.len(), $input_len);
+            anyhow::ensure!(inp.len() == $input_len, "number of arguments is wrong for function {}", $name);
             let mut i:i32 = -1;
             Ok($output(
                $function( 
